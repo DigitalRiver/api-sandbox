@@ -1,0 +1,1767 @@
+{
+	"info": {
+		"_postman_id": "b37f4248-e197-452d-a95a-a223e103e651",
+		"name": "Digital River Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create a Client-fulfilled SKU",
+			"item": [
+				{
+					"name": "Create a physical sku",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "ad8e616e-a657-4c2d-b1e5-4cdc5faf67bf",
+								"exec": [
+									"uuid = require('uuid');",
+									"pm.globals.set('uuid',  uuid.v4());"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "e532d373-7e98-4b8b-a889-01a5ad874921",
+								"exec": [
+									"pm.globals.set(\"skuId-P\", pm.response.json().id);",
+									"",
+									"pm.test(\"Created SKU\", function () {",
+									"     pm.response.to.have.status(201);",
+									"     pm.response.to.be.withBody;",
+									"     pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Response Body Contract\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"id\");",
+									"    pm.expect(pm.response.text()).to.include(\"createdTime\");",
+									"    pm.expect(pm.response.text()).to.include(\"name\");",
+									"    pm.expect(pm.response.text()).to.include(\"eccn\");",
+									"     pm.expect(pm.response.text()).to.include(\"taxCode\");",
+									"    pm.expect(pm.response.text()).to.include(\"countryOfOrigin\");",
+									"});",
+									"",
+									"pm.test(\"Verify metadata fields are displayed\", function () {",
+									"    pm.expect(pm.response.json()).to.have.property('metadata');",
+									"    pm.expect(pm.response.json().metadata.application).to.eql (\"iOS-LLL\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"{{uuid}}\",\n    \"eccn\": \"EAR99\",\n    \"countryOfOrigin\": \"US\",\n    \"taxCode\": \"4323.310_A\",\n    \"partNumber\": \"{{uuid}}\",\n    \"manufacturerId\": \"20013\",\n    \"name\": \"Test Product\",\n    \"fulfill\": false,\n    \"metadata\": {\n        \"customAttribute1\": \"some value\"\n    }\n}"
+						},
+						"url": {
+							"raw": "https://api.digitalriver.com/skus",
+							"protocol": "https",
+							"host": [
+								"api",
+								"digitalriver",
+								"com"
+							],
+							"path": [
+								"skus"
+							]
+						},
+						"description": "This call will be used by a process that monitors/listens for product changes occuring within the commerce platform to create/update SKUs in GlobalCommerce as needed."
+					},
+					"response": []
+				},
+				{
+					"name": "Create a digital/services sku",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "ad8e616e-a657-4c2d-b1e5-4cdc5faf67bf",
+								"exec": [
+									"uuid = require('uuid');",
+									"pm.globals.set('uuid',  uuid.v4());"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "e532d373-7e98-4b8b-a889-01a5ad874921",
+								"exec": [
+									"pm.globals.set(\"skuId-D\", pm.response.json().id);",
+									"",
+									"pm.test(\"Created SKU\", function () {",
+									"     pm.response.to.have.status(201);",
+									"     pm.response.to.be.withBody;",
+									"     pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Response Body Contract\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"id\");",
+									"    pm.expect(pm.response.text()).to.include(\"createdTime\");",
+									"    pm.expect(pm.response.text()).to.include(\"name\");",
+									"    pm.expect(pm.response.text()).to.include(\"eccn\");",
+									"     pm.expect(pm.response.text()).to.include(\"taxCode\");",
+									"    pm.expect(pm.response.text()).to.include(\"countryOfOrigin\");",
+									"});",
+									"",
+									"pm.test(\"Verify metadata fields are displayed\", function () {",
+									"    pm.expect(pm.response.json()).to.have.property('metadata');",
+									"    pm.expect(pm.response.json().metadata.application).to.eql (\"iOS-LLL\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"{{uuid}}\",\n    \"eccn\": \"EAR99\",\n    \"countryOfOrigin\": \"US\",\n    \"taxCode\": \"4323.310_A\",\n    \"name\": \"Test Product\",\n    \"fulfill\": false,\n    \"metadata\": {\n        \"customAttribute1\": \"some value\"\n    }\n}"
+						},
+						"url": {
+							"raw": "https://api.digitalriver.com/skus",
+							"protocol": "https",
+							"host": [
+								"api",
+								"digitalriver",
+								"com"
+							],
+							"path": [
+								"skus"
+							]
+						},
+						"description": "This call will be used by a process that monitors/listens for product changes occuring within the commerce platform to create/update SKUs in GlobalCommerce as needed."
+					},
+					"response": []
+				}
+			],
+			"description": "Creates an order with a physical sku with an anonymous customer.  It returns 1 of the skus and does a partial refund on another sku.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "5b0ce9be-0dfb-41fd-a7ee-147ce925808e",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "5b1e3e4c-bd51-4c38-bacc-dae44789f493",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Account-based Checkout",
+			"item": [
+				{
+					"name": "Create checkout",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "4b187001-ffaa-45f7-a9c8-6e868e848f27",
+								"exec": [
+									"uuid = require('uuid');",
+									"pm.globals.set('uuid',  uuid.v4());"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "4b73ed9b-4140-400f-9cc4-ee7506e21fca",
+								"exec": [
+									"var _ = require('lodash');",
+									"",
+									"pm.test(\"Create Checkout\", function () {",
+									"     pm.response.to.have.status(201);",
+									"     pm.response.to.be.withBody;",
+									"     pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Verify checkoutId is created\", function () {",
+									"    pm.expect(pm.response.json().id).not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Set CheckoutId to Global Variable\", function () {",
+									"    pm.globals.set(\"checkoutId\", pm.response.json().id);",
+									"});",
+									"",
+									"pm.test(\"Set Checkout Amount to Global Variable\", function () {",
+									"    pm.globals.set(\"checkoutAmount\", pm.response.json().totalAmount);",
+									"});",
+									"",
+									"pm.test(\"Set PaymentSessionId to Global Variable\", function () {",
+									"    pm.globals.set(\"paymentSessionId\", pm.response.json().paymentSessionId);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"currency\": \"USD\",\n    \"taxInclusive\": false,\n    \"browserIp\": \"111.111.111.111\",\n    \"email\": \"null@digitalriver.com\",\n    \"shipTo\": {\n        \"address\": {\n            \"line1\": \"10380 Bren Road West\",\n            \"city\": \"Minnetonka\",\n            \"postalCode\": \"55343\",\n            \"state\": \"MN\",\n            \"country\": \"US\"\n        },\n        \"name\": \"William Brown\"\n    },\n    \"items\": [\n        {\n            \"skuId\": \"{{skuId-P}}\",\n            \"quantity\": 3,\n            \"price\": 5.99,\n            \"metadata\": {\n                \"key1_LineLevel\": \"123456789\"\n            }\n        },\n        {\n            \"skuId\": \"{{skuId-D}}\",\n            \"quantity\": 2,\n            \"price\": 15.99,\n            \"metadata\": {\n                \"key1_LineLevel\": \"987654321\"\n            }\n        }\n    ],\n    \"upstreamId\": \"{{uuid}}\",\n    \"metadata\": {\n        \"key1_OrderLevel\": 12345,\n        \"key2_OrderLevel\": true\n    }\n}"
+						},
+						"url": {
+							"raw": "https://api.digitalriver.com/checkouts",
+							"protocol": "https",
+							"host": [
+								"api",
+								"digitalriver",
+								"com"
+							],
+							"path": [
+								"checkouts"
+							]
+						},
+						"description": "Creates a checkout resource with line item pricing and shipping address supplied by the commerce platform.\nNote that if email hasnt been collected yet in the shopper-present UI, the null placeholder below can be provided initially and updated in later steps."
+					},
+					"response": []
+				},
+				{
+					"name": "Update checkout w/ Shipping Method",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "4b187001-ffaa-45f7-a9c8-6e868e848f27",
+								"exec": [
+									"uuid = require('uuid');",
+									"pm.globals.set('uuid',  uuid.v4());"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "4b73ed9b-4140-400f-9cc4-ee7506e21fca",
+								"exec": [
+									"var _ = require('lodash');",
+									"",
+									"pm.test(\"Create Checkout\", function () {",
+									"     pm.response.to.have.status(201);",
+									"     pm.response.to.be.withBody;",
+									"     pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Verify checkoutId is created\", function () {",
+									"    pm.expect(pm.response.json().id).not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Set CheckoutId to Global Variable\", function () {",
+									"    pm.globals.set(\"checkoutId\", pm.response.json().id);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"shippingChoice\": {\n    \"amount\": 5.95,\n    \"description\": \"USPS: Priority (1 day delivery)\",\n    \"serviceLevel\": \"SG\"\n  }\n}"
+						},
+						"url": {
+							"raw": "https://api.digitalriver.com/checkouts/{{checkoutId}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"digitalriver",
+								"com"
+							],
+							"path": [
+								"checkouts",
+								"{{checkoutId}}"
+							]
+						},
+						"description": "Creates a checkout resource with line item pricing and shipping address supplied by the commerce platform.\nNote that if email hasnt been collected yet in the shopper-present UI, the null placeholder below can be provided initially and updated in later steps."
+					},
+					"response": []
+				},
+				{
+					"name": "Create customer",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "4b187001-ffaa-45f7-a9c8-6e868e848f27",
+								"exec": [
+									"uuid = require('uuid');",
+									"pm.globals.set('uuid',  uuid.v4());"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "f863b58a-28d7-4825-b2d2-00a0d6f98f95",
+								"exec": [
+									"pm.test(\"Created Customer\", function () {",
+									"     pm.response.to.have.status(201);",
+									"     pm.response.to.be.withBody;",
+									"     pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Set Customer Id to Global Variable\", function () {",
+									"    pm.globals.set(\"customerId\", pm.response.json().id);",
+									"});",
+									"",
+									"pm.test(\"Set Customer email to Global Variable\", function () {",
+									"    pm.globals.set(\"customerEmail\", pm.response.json().email);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"{{uuid}}@digitalriver.com\",\n    \"upstreamId\": \"{{uuid}}\",\n    \"metadata\": {\n        \"CustomerSegment\": \"Consumer\"\n    }\n}"
+						},
+						"url": {
+							"raw": "https://api.digitalriver.com/customers",
+							"protocol": "https",
+							"host": [
+								"api",
+								"digitalriver",
+								"com"
+							],
+							"path": [
+								"customers"
+							]
+						},
+						"description": "Creates a customer."
+					},
+					"response": [
+						{
+							"name": "CreateCustomer",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"{{uuid}}@digitalriver.com\",\n    \"upstreamId\": \"{{uuid}}\",\n    \"shipping\": {\n        \"address\": {\n            \"line1\": \"9625 West 76th St\",\n            \"line2\": \"Ste 1\",\n            \"line3\": \"test\",\n            \"city\": \"Eden Prairie\",\n            \"postalCode\": \"55344-3765\",\n            \"state\": \"MN\",\n            \"country\": \"US\"\n        },\n        \"name\": \"Automation Tester\",\n        \"phone\": \"952-253-1234 x132\",\n        \"email\": \"test@digitalriver.com\"\n    },\n        \"metadata\": {\n    \t\"CustomerRating\": \"Gold\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{apiDrCn.dispatchHost}}/customers",
+									"host": [
+										"{{apiDrCn.dispatchHost}}"
+									],
+									"path": [
+										"customers"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "x-dr-requestid",
+									"value": "81a3a7da-82d2-474c-9ee3-a3223d8d7016"
+								},
+								{
+									"key": "date",
+									"value": "Thu, 21 Feb 2019 13:13:43 GMT"
+								},
+								{
+									"key": "access-control-allow-origin",
+									"value": "*"
+								},
+								{
+									"key": "access-control-allow-headers",
+									"value": "content-type, accept"
+								},
+								{
+									"key": "content-encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "cache-control",
+									"value": "no-cache,no-store"
+								},
+								{
+									"key": "access-control-allow-methods",
+									"value": "GET, HEAD, POST, PUT, DELETE, OPTIONS, PATCH"
+								},
+								{
+									"key": "via",
+									"value": "1.1 localhost (Apache-HttpClient/4.5 (cache))"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=UTF-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "326"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"494427362389\",\n    \"createdTime\": \"2019-02-21T13:13:43Z\",\n    \"updatedTime\": \"2019-02-21T13:13:43Z\",\n    \"email\": \"2178099e-7d91-4fbd-943f-09d018575544@digitalriver.com\",\n    \"upstreamId\": \"2178099e-7d91-4fbd-943f-09d018575544\",\n    \"shipping\": {\n        \"address\": {\n            \"line1\": \"9625 West 76th St\",\n            \"line2\": \"Ste 1\",\n            \"city\": \"Eden Prairie\",\n            \"postalCode\": \"55344-3765\",\n            \"state\": \"MN\",\n            \"country\": \"US\"\n        },\n        \"name\": \"Automation Tester\",\n        \"phone\": \"952-253-1234 x132\",\n        \"email\": \"test@digitalriver.com\"\n    },\n    \"enabled\": true,\n    \"metadata\": {\n        \"CustomerRating\": \"Gold\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Payment Source",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "df53edb3-eefc-4ab0-b224-73bedebbbb53",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.globals.set(\"sourceId\", jsonData.id);",
+									"",
+									"pm.test(\"Created Payment Source\", function () {",
+									"     pm.response.to.have.status(201);",
+									"     pm.response.to.be.withBody;",
+									"     pm.response.to.be.json;",
+									"});",
+									"     ",
+									"pm.test(\"Response Body Contract\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"id\");",
+									"    pm.expect(pm.response.text()).to.include(\"createdTime\");",
+									"    pm.expect(pm.response.text()).to.include(\"state\");",
+									"    pm.expect(pm.response.text()).to.include(\"type\");",
+									"    pm.expect(pm.response.text()).to.include(\"owner\");",
+									"    pm.expect(pm.response.text()).to.include(\"reusable\");",
+									"    pm.expect(pm.response.json().owner.address.line1).not.eql(null);",
+									"    pm.expect(pm.response.json().owner.address.city).not.eql(null);",
+									"    pm.expect(pm.response.json().owner.address.postalCode).not.eql(null);",
+									"    pm.expect(pm.response.json().owner.address.state).not.eql(null);",
+									"    pm.expect(pm.response.json().owner.address.country).not.eql(null);",
+									"    pm.expect(pm.response.json().creditCard.lastFourDigits).not.eql(null);",
+									"    pm.expect(pm.response.json().creditCard.expirationMonth).not.eql(null);",
+									"    pm.expect(pm.response.json().creditCard.expirationYear).not.eql(null);",
+									"    pm.expect(pm.response.json().creditCard.brand).not.eql(null);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"type\": \"creditCard\",\r\n    \"paymentSessionId\": \"{{paymentSessionId}}\",\r\n\t\"reusable\": false,\r\n\t\"owner\": {\r\n\t\t\"firstName\": \"William\",\r\n\t\t\"lastName\": \"Brown\",\r\n\t\t\"email\": \"apiTester@digitalriver.com\",\r\n\t\t\"address\": {\r\n\t\t\t\"line1\": \"10380 Bren Road West\",\r\n\t\t\t\"city\": \"Minnetonka\",\r\n\t\t\t\"state\": \"MN\",\r\n\t\t\t\"country\": \"US\",\r\n\t\t\t\"postalCode\": \"55343\"\r\n\t\t}\r\n\t},\r\n\t\"creditCard\": {\r\n\t\t\"number\": \"4444222233331111\",\r\n\t\t\"expirationMonth\": 7,\r\n\t\t\"expirationYear\": 2027,\r\n\t\t\"cvv\": \"415\"\r\n\t}\r\n}"
+						},
+						"url": {
+							"raw": "https://api.digitalriver.com/sources",
+							"protocol": "https",
+							"host": [
+								"api",
+								"digitalriver",
+								"com"
+							],
+							"path": [
+								"sources"
+							]
+						},
+						"description": "In a full API-implementation, sources are created in the shopper-present UI (browser) via the digitalriver.js payment library. This API call is included in this Postman collection for convenience only."
+					},
+					"response": [
+						{
+							"name": "CreatePaymentSource",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"type\": \"creditCard\",\r\n\t\"usage\": \"single\",\r\n\t\"amount\": {\r\n\t\t\"value\": 10,\r\n\t\t\"currency\": \"USD\"\r\n\t},\r\n\t\"owner\": {\r\n\t\t\"firstName\": \"Test\",\r\n\t\t\"lastName\": \"Automation\",\r\n\t\t\"email\": \"testdummy@digitalriver.com\",\r\n\t\t\"address\": {\r\n\t\t\t\"line1\": \"1234 Fake St.\",\r\n\t\t\t\"city\": \"Minnetonka\",\r\n\t\t\t\"state\": \"MN\",\r\n\t\t\t\"country\": \"US\",\r\n\t\t\t\"postalCode\": \"55341\"\r\n\t\t}\r\n\t},\r\n\t\"creditCard\": {\r\n\t\t\"cardNumber\": \"4444222233331111\",\r\n\t\t\"expirationMonth\": 8,\r\n\t\t\"expirationYear\": 2525,\r\n\t\t\"cardSecurityCode\": \"123\"\r\n\t}\r\n}"
+								},
+								"url": {
+									"raw": "{{apiDrCn.dispatchHost}}/payments/sources",
+									"host": [
+										"{{apiDrCn.dispatchHost}}"
+									],
+									"path": [
+										"payments",
+										"sources"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "date",
+									"value": "Thu, 21 Feb 2019 13:31:38 GMT"
+								},
+								{
+									"key": "x-dr-requestid",
+									"value": "7f2e07e8-8fc1-4c50-949b-9192bea4ec0b"
+								},
+								{
+									"key": "expires",
+									"value": "0"
+								},
+								{
+									"key": "x-frame-options",
+									"value": "DENY"
+								},
+								{
+									"key": "pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "via",
+									"value": "1.1 localhost (Apache-HttpClient/4.5 (cache))"
+								},
+								{
+									"key": "application_host",
+									"value": "paysrvsys035001.c035.digitalriverws.net"
+								},
+								{
+									"key": "x-content-type-options",
+									"value": "nosniff"
+								},
+								{
+									"key": "x-xss-protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "cache-control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "request_id",
+									"value": "THREAD=1185:TIME=36972250815821699"
+								},
+								{
+									"key": "x-application-context",
+									"value": "payments-service-test"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=UTF-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "635"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"clientId\": \"gc\",\n    \"channelId\": \"home1\",\n    \"liveMode\": false,\n    \"id\": \"387cd540-132d-4f1a-9ce6-b0775e186c23\",\n    \"type\": \"creditCard\",\n    \"usage\": \"single\",\n    \"owner\": {\n        \"firstName\": \"Test\",\n        \"lastName\": \"Automation\",\n        \"email\": \"testdummy@digitalriver.com\",\n        \"address\": {\n            \"line1\": \"1234 Fake St.\",\n            \"city\": \"Minnetonka\",\n            \"state\": \"MN\",\n            \"country\": \"US\",\n            \"postalCode\": \"55341\"\n        }\n    },\n    \"amount\": {\n        \"value\": \"10.00\",\n        \"currency\": \"USD\"\n    },\n    \"status\": \"chargeable\",\n    \"creationIp\": \"10.65.28.183\",\n    \"creationDate\": \"2019-02-21T13:31:38.928Z\",\n    \"flow\": \"standard\",\n    \"creditCard\": {\n        \"brand\": \"Visa\",\n        \"expirationMonth\": 8,\n        \"expirationYear\": 2525,\n        \"lastFourDigits\": \"1111\",\n        \"paymentIdentifier\": \"13159976250000000000000500658103\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Attach source to customer",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "fce2ee92-f24d-4db9-90ce-432824c3935a",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "f491674c-2717-45d1-a32a-8b7d8a4dda60",
+								"exec": [
+									"pm.test(\"Attach a Payment Source to Customer\", function () {",
+									"     pm.response.to.have.status(200);",
+									"     pm.response.to.be.withBody;",
+									"     pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Response Body Contract\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"id\");",
+									"    pm.expect(pm.response.text()).to.include(\"customerId\");",
+									"    pm.expect(pm.response.text()).to.include(\"state\");",
+									"    pm.expect(pm.response.text()).to.include(\"owner\");",
+									"    pm.expect(pm.response.text()).to.include(\"reusable\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://api.digitalriver.com/customers/{{customerId}}/sources/{{sourceId}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"digitalriver",
+								"com"
+							],
+							"path": [
+								"customers",
+								"{{customerId}}",
+								"sources",
+								"{{sourceId}}"
+							]
+						},
+						"description": "Attaches a payment source to a customer and validates the source is the default source.\nThis is call is optional based on whether a Customer elects to save the payment instrument on their profile for future orders."
+					},
+					"response": []
+				},
+				{
+					"name": "Update checkout w/ Customer, Email, and Source",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "4b187001-ffaa-45f7-a9c8-6e868e848f27",
+								"exec": [
+									"uuid = require('uuid');",
+									"pm.globals.set('uuid',  uuid.v4());"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "4b73ed9b-4140-400f-9cc4-ee7506e21fca",
+								"exec": [
+									"var _ = require('lodash');",
+									"",
+									"pm.test(\"Create Checkout\", function () {",
+									"     pm.response.to.have.status(201);",
+									"     pm.response.to.be.withBody;",
+									"     pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Verify checkoutId is created\", function () {",
+									"    pm.expect(pm.response.json().id).not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Set CheckoutId to Global Variable\", function () {",
+									"    pm.globals.set(\"checkoutId\", pm.response.json().id);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"customerId\": \"{{customerId}}\",\r\n   \"email\": \"{{customerEmail}}\",\r\n   \"sourceId\": \"{{sourceId}}\"\r\n}"
+						},
+						"url": {
+							"raw": "https://api.digitalriver.com/checkouts/{{checkoutId}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"digitalriver",
+								"com"
+							],
+							"path": [
+								"checkouts",
+								"{{checkoutId}}"
+							]
+						},
+						"description": "Updates the specified checkout with the Customer and SourceID in the request body."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Order w/ CheckoutID",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "4b187001-ffaa-45f7-a9c8-6e868e848f27",
+								"exec": [
+									"uuid = require('uuid');",
+									"pm.globals.set('uuid',  uuid.v4());"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "4b73ed9b-4140-400f-9cc4-ee7506e21fca",
+								"exec": [
+									"pm.test(\"Created Orders call is successful\", function () {",
+									"     pm.response.to.have.status(201);",
+									"     pm.response.to.be.withBody;",
+									"     pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Verify order number is created\", function () {",
+									"    pm.expect(pm.response.json().id).not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Set orderNumber to Global Variable\", function () {",
+									"    pm.globals.set(\"orderId\", pm.response.json().id);",
+									"});",
+									"",
+									"pm.test(\"Set orderNumber to Global Variable\", function () {",
+									"    pm.globals.set(\"chargeId\", pm.response.json().chargeIds);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"checkoutId\": \"{{checkoutId}}\"\r\n}"
+						},
+						"url": {
+							"raw": "https://api.digitalriver.com/orders",
+							"protocol": "https",
+							"host": [
+								"api",
+								"digitalriver",
+								"com"
+							],
+							"path": [
+								"orders"
+							]
+						},
+						"description": "Creates/Submits an order based on all of the details attached to the specified checkout."
+					},
+					"response": []
+				}
+			],
+			"description": "Creates a checkout and customer.\n",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "5b0ce9be-0dfb-41fd-a7ee-147ce925808e",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "5b1e3e4c-bd51-4c38-bacc-dae44789f493",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Guest Checkout",
+			"item": [
+				{
+					"name": "Create checkout",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "4b187001-ffaa-45f7-a9c8-6e868e848f27",
+								"exec": [
+									"uuid = require('uuid');",
+									"pm.globals.set('uuid',  uuid.v4());"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "4b73ed9b-4140-400f-9cc4-ee7506e21fca",
+								"exec": [
+									"var _ = require('lodash');",
+									"",
+									"pm.test(\"Create Checkout\", function () {",
+									"     pm.response.to.have.status(201);",
+									"     pm.response.to.be.withBody;",
+									"     pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Verify checkoutId is created\", function () {",
+									"    pm.expect(pm.response.json().id).not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Set CheckoutId to Global Variable\", function () {",
+									"    pm.globals.set(\"checkoutId\", pm.response.json().id);",
+									"});",
+									"",
+									"pm.test(\"Set Checkout Amount to Global Variable\", function () {",
+									"    pm.globals.set(\"checkoutAmount\", pm.response.json().totalAmount);",
+									"});",
+									"",
+									"pm.test(\"Set PaymentSessionId to Global Variable\", function () {",
+									"    pm.globals.set(\"paymentSessionId\", pm.response.json().paymentSessionId);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"currency\": \"USD\",\n    \"taxInclusive\": false,\n    \"browserIp\": \"111.111.111.111\",\n    \"email\": \"null@digitalriver.com\",\n    \"shipTo\": {\n        \"address\": {\n            \"line1\": \"10380 Bren Road West\",\n            \"city\": \"Minnetonka\",\n            \"postalCode\": \"55343\",\n            \"state\": \"MN\",\n            \"country\": \"US\"\n        },\n        \"name\": \"William Brown\"\n    },\n    \"items\": [\n        {\n            \"skuId\": \"{{skuId-P}}\",\n            \"quantity\": 3,\n            \"price\": 5.99,\n            \"metadata\": {\n                \"key1_LineLevel\": \"123456789\"\n            }\n        },\n        {\n            \"skuId\": \"{{skuId-D}}\",\n            \"quantity\": 2,\n            \"price\": 15.99,\n            \"metadata\": {\n                \"key1_LineLevel\": \"987654321\"\n            }\n        }\n    ],\n    \"upstreamId\": \"{{uuid}}\",\n    \"metadata\": {\n        \"key1_OrderLevel\": 12345,\n        \"key2_OrderLevel\": true\n    }\n}"
+						},
+						"url": {
+							"raw": "https://api.digitalriver.com/checkouts",
+							"protocol": "https",
+							"host": [
+								"api",
+								"digitalriver",
+								"com"
+							],
+							"path": [
+								"checkouts"
+							]
+						},
+						"description": "Creates a checkout resource with line item pricing and shipping address supplied by the commerce platform.\nNote that if email hasnt been collected yet in the shopper-present UI, the null placeholder below can be provided initially and updated in later steps."
+					},
+					"response": []
+				},
+				{
+					"name": "Update checkout w/ Shipping Method",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "4b187001-ffaa-45f7-a9c8-6e868e848f27",
+								"exec": [
+									"uuid = require('uuid');",
+									"pm.globals.set('uuid',  uuid.v4());"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "4b73ed9b-4140-400f-9cc4-ee7506e21fca",
+								"exec": [
+									"var _ = require('lodash');",
+									"",
+									"pm.test(\"Create Checkout\", function () {",
+									"     pm.response.to.have.status(201);",
+									"     pm.response.to.be.withBody;",
+									"     pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Verify checkoutId is created\", function () {",
+									"    pm.expect(pm.response.json().id).not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Set CheckoutId to Global Variable\", function () {",
+									"    pm.globals.set(\"checkoutId\", pm.response.json().id);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"shippingChoice\": {\n    \"amount\": 5.95,\n    \"description\": \"USPS: Priority (1 day delivery)\",\n    \"serviceLevel\": \"SG\"\n  }\n}"
+						},
+						"url": {
+							"raw": "https://api.digitalriver.com/checkouts/{{checkoutId}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"digitalriver",
+								"com"
+							],
+							"path": [
+								"checkouts",
+								"{{checkoutId}}"
+							]
+						},
+						"description": "Creates a checkout resource with line item pricing and shipping address supplied by the commerce platform.\nNote that if email hasnt been collected yet in the shopper-present UI, the null placeholder below can be provided initially and updated in later steps."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Payment Source",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "df53edb3-eefc-4ab0-b224-73bedebbbb53",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.globals.set(\"sourceId\", jsonData.id);",
+									"",
+									"pm.test(\"Created Payment Source\", function () {",
+									"     pm.response.to.have.status(201);",
+									"     pm.response.to.be.withBody;",
+									"     pm.response.to.be.json;",
+									"});",
+									"     ",
+									"pm.test(\"Response Body Contract\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"id\");",
+									"    pm.expect(pm.response.text()).to.include(\"createdTime\");",
+									"    pm.expect(pm.response.text()).to.include(\"state\");",
+									"    pm.expect(pm.response.text()).to.include(\"type\");",
+									"    pm.expect(pm.response.text()).to.include(\"owner\");",
+									"    pm.expect(pm.response.text()).to.include(\"reusable\");",
+									"    pm.expect(pm.response.json().owner.address.line1).not.eql(null);",
+									"    pm.expect(pm.response.json().owner.address.city).not.eql(null);",
+									"    pm.expect(pm.response.json().owner.address.postalCode).not.eql(null);",
+									"    pm.expect(pm.response.json().owner.address.state).not.eql(null);",
+									"    pm.expect(pm.response.json().owner.address.country).not.eql(null);",
+									"    pm.expect(pm.response.json().creditCard.lastFourDigits).not.eql(null);",
+									"    pm.expect(pm.response.json().creditCard.expirationMonth).not.eql(null);",
+									"    pm.expect(pm.response.json().creditCard.expirationYear).not.eql(null);",
+									"    pm.expect(pm.response.json().creditCard.brand).not.eql(null);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"type\": \"creditCard\",\r\n    \"paymentSessionId\": \"{{paymentSessionId}}\",\r\n\t\"reusable\": false,\r\n\t\"owner\": {\r\n\t\t\"firstName\": \"William\",\r\n\t\t\"lastName\": \"Brown\",\r\n\t\t\"email\": \"apiTester@digitalriver.com\",\r\n\t\t\"address\": {\r\n\t\t\t\"line1\": \"10380 Bren Road West\",\r\n\t\t\t\"city\": \"Minnetonka\",\r\n\t\t\t\"state\": \"MN\",\r\n\t\t\t\"country\": \"US\",\r\n\t\t\t\"postalCode\": \"55343\"\r\n\t\t}\r\n\t},\r\n\t\"creditCard\": {\r\n\t\t\"number\": \"4444222233331111\",\r\n\t\t\"expirationMonth\": 7,\r\n\t\t\"expirationYear\": 2027,\r\n\t\t\"cvv\": \"415\"\r\n\t}\r\n}"
+						},
+						"url": {
+							"raw": "https://api.digitalriver.com/sources",
+							"protocol": "https",
+							"host": [
+								"api",
+								"digitalriver",
+								"com"
+							],
+							"path": [
+								"sources"
+							]
+						},
+						"description": "In a full API-implementation, sources are created in the shopper-present UI (browser) via the digitalriver.js payment library. This API call is included in this Postman collection for convenience only."
+					},
+					"response": [
+						{
+							"name": "CreatePaymentSource",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"type\": \"creditCard\",\r\n\t\"usage\": \"single\",\r\n\t\"amount\": {\r\n\t\t\"value\": 10,\r\n\t\t\"currency\": \"USD\"\r\n\t},\r\n\t\"owner\": {\r\n\t\t\"firstName\": \"Test\",\r\n\t\t\"lastName\": \"Automation\",\r\n\t\t\"email\": \"testdummy@digitalriver.com\",\r\n\t\t\"address\": {\r\n\t\t\t\"line1\": \"1234 Fake St.\",\r\n\t\t\t\"city\": \"Minnetonka\",\r\n\t\t\t\"state\": \"MN\",\r\n\t\t\t\"country\": \"US\",\r\n\t\t\t\"postalCode\": \"55341\"\r\n\t\t}\r\n\t},\r\n\t\"creditCard\": {\r\n\t\t\"cardNumber\": \"4444222233331111\",\r\n\t\t\"expirationMonth\": 8,\r\n\t\t\"expirationYear\": 2525,\r\n\t\t\"cardSecurityCode\": \"123\"\r\n\t}\r\n}"
+								},
+								"url": {
+									"raw": "{{apiDrCn.dispatchHost}}/payments/sources",
+									"host": [
+										"{{apiDrCn.dispatchHost}}"
+									],
+									"path": [
+										"payments",
+										"sources"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "date",
+									"value": "Thu, 21 Feb 2019 13:31:38 GMT"
+								},
+								{
+									"key": "x-dr-requestid",
+									"value": "7f2e07e8-8fc1-4c50-949b-9192bea4ec0b"
+								},
+								{
+									"key": "expires",
+									"value": "0"
+								},
+								{
+									"key": "x-frame-options",
+									"value": "DENY"
+								},
+								{
+									"key": "pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "via",
+									"value": "1.1 localhost (Apache-HttpClient/4.5 (cache))"
+								},
+								{
+									"key": "application_host",
+									"value": "paysrvsys035001.c035.digitalriverws.net"
+								},
+								{
+									"key": "x-content-type-options",
+									"value": "nosniff"
+								},
+								{
+									"key": "x-xss-protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "cache-control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "request_id",
+									"value": "THREAD=1185:TIME=36972250815821699"
+								},
+								{
+									"key": "x-application-context",
+									"value": "payments-service-test"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=UTF-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "635"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"clientId\": \"gc\",\n    \"channelId\": \"home1\",\n    \"liveMode\": false,\n    \"id\": \"387cd540-132d-4f1a-9ce6-b0775e186c23\",\n    \"type\": \"creditCard\",\n    \"usage\": \"single\",\n    \"owner\": {\n        \"firstName\": \"Test\",\n        \"lastName\": \"Automation\",\n        \"email\": \"testdummy@digitalriver.com\",\n        \"address\": {\n            \"line1\": \"1234 Fake St.\",\n            \"city\": \"Minnetonka\",\n            \"state\": \"MN\",\n            \"country\": \"US\",\n            \"postalCode\": \"55341\"\n        }\n    },\n    \"amount\": {\n        \"value\": \"10.00\",\n        \"currency\": \"USD\"\n    },\n    \"status\": \"chargeable\",\n    \"creationIp\": \"10.65.28.183\",\n    \"creationDate\": \"2019-02-21T13:31:38.928Z\",\n    \"flow\": \"standard\",\n    \"creditCard\": {\n        \"brand\": \"Visa\",\n        \"expirationMonth\": 8,\n        \"expirationYear\": 2525,\n        \"lastFourDigits\": \"1111\",\n        \"paymentIdentifier\": \"13159976250000000000000500658103\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Update checkout w/ Email, and Source",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "4b187001-ffaa-45f7-a9c8-6e868e848f27",
+								"exec": [
+									"uuid = require('uuid');",
+									"pm.globals.set('uuid',  uuid.v4());"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "4b73ed9b-4140-400f-9cc4-ee7506e21fca",
+								"exec": [
+									"var _ = require('lodash');",
+									"",
+									"pm.test(\"Create Checkout\", function () {",
+									"     pm.response.to.have.status(201);",
+									"     pm.response.to.be.withBody;",
+									"     pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Verify checkoutId is created\", function () {",
+									"    pm.expect(pm.response.json().id).not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Set CheckoutId to Global Variable\", function () {",
+									"    pm.globals.set(\"checkoutId\", pm.response.json().id);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"email\": \"{{uuid}}@digitalriver.com\",\r\n   \"sourceId\": \"{{sourceId}}\"\r\n}"
+						},
+						"url": {
+							"raw": "https://api.digitalriver.com/checkouts/{{checkoutId}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"digitalriver",
+								"com"
+							],
+							"path": [
+								"checkouts",
+								"{{checkoutId}}"
+							]
+						},
+						"description": "Updates the specified checkout with the Customer and SourceID in the request body."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Order w/ CheckoutID",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "4b187001-ffaa-45f7-a9c8-6e868e848f27",
+								"exec": [
+									"uuid = require('uuid');",
+									"pm.globals.set('uuid',  uuid.v4());"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "4b73ed9b-4140-400f-9cc4-ee7506e21fca",
+								"exec": [
+									"pm.test(\"Created Orders call is successful\", function () {",
+									"     pm.response.to.have.status(201);",
+									"     pm.response.to.be.withBody;",
+									"     pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Verify order number is created\", function () {",
+									"    pm.expect(pm.response.json().id).not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Set orderNumber to Global Variable\", function () {",
+									"    pm.globals.set(\"orderId\", pm.response.json().id);",
+									"});",
+									"",
+									"pm.test(\"Set orderNumber to Global Variable\", function () {",
+									"    pm.globals.set(\"chargeId\", pm.response.json().chargeIds);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"checkoutId\": \"{{checkoutId}}\"\r\n}"
+						},
+						"url": {
+							"raw": "https://api.digitalriver.com/orders",
+							"protocol": "https",
+							"host": [
+								"api",
+								"digitalriver",
+								"com"
+							],
+							"path": [
+								"orders"
+							]
+						},
+						"description": "Creates/Submits an order based on all of the details attached to the specified checkout."
+					},
+					"response": []
+				}
+			],
+			"description": "Creates a checkout and customer.\n",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "5b0ce9be-0dfb-41fd-a7ee-147ce925808e",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "5b1e3e4c-bd51-4c38-bacc-dae44789f493",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Webhooks",
+			"item": [
+				{
+					"name": "Create Fulfillment",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "4b187001-ffaa-45f7-a9c8-6e868e848f27",
+								"exec": [
+									"uuid = require('uuid');",
+									"pm.globals.set('uuid',  uuid.v4());"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "4b73ed9b-4140-400f-9cc4-ee7506e21fca",
+								"exec": [
+									"pm.test(\"Create Fulfillments call is successful\", function () {",
+									"     pm.response.to.have.status(201);",
+									"     pm.response.to.be.withBody;",
+									"     pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Set FulfillmentId to Global Variable\", function () {",
+									"    pm.globals.set(\"fulfillmentId\", pm.response.json().id);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"orderId\": \"{{orderId}}\",\r\n  \"items\":\r\n    [\r\n      {\r\n        \"skuId\": \"{{skuId-P}}\",\r\n        \"quantity\": 3\r\n      }\r\n    ],\r\n    \"metadata\": {\r\n        \"lineItemExtRefID\": \"123456\"\r\n    }\r\n}"
+						},
+						"url": {
+							"raw": "https://api.digitalriver.com/fulfillments",
+							"protocol": "https",
+							"host": [
+								"api",
+								"digitalriver",
+								"com"
+							],
+							"path": [
+								"fulfillments"
+							]
+						},
+						"description": "Creates a fulfillment record and completes the line item fulfillment process within Global Commerce - after this call funds will be captured for the line item."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Fulfillment - Cancel",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "4b187001-ffaa-45f7-a9c8-6e868e848f27",
+								"exec": [
+									"uuid = require('uuid');",
+									"pm.globals.set('uuid',  uuid.v4());"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "4b73ed9b-4140-400f-9cc4-ee7506e21fca",
+								"exec": [
+									"pm.test(\"Create Fulfillments call is successful\", function () {",
+									"     pm.response.to.have.status(201);",
+									"     pm.response.to.be.withBody;",
+									"     pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Set FulfillmentId to Global Variable\", function () {",
+									"    pm.globals.set(\"cancelFulfillmentId\", pm.response.json().id);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"orderId\": \"{{orderId}}\",\r\n  \"items\":\r\n    [\r\n      {\r\n        \"skuId\": \"{{skuId}}\",\r\n        \"cancelQuantity\": 3\r\n      }\r\n    ],\r\n    \"metadata\": {\r\n        \"lineItemExtRefID\": \"123456\"\r\n    }\r\n}"
+						},
+						"url": {
+							"raw": "https://api.digitalriver.com/fulfillments",
+							"protocol": "https",
+							"host": [
+								"api",
+								"digitalriver",
+								"com"
+							],
+							"path": [
+								"fulfillments"
+							]
+						},
+						"description": "Creates a cancelation fulfillment record for a given line item/sku."
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Events for Order",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "4b187001-ffaa-45f7-a9c8-6e868e848f27",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "4b73ed9b-4140-400f-9cc4-ee7506e21fca",
+								"exec": [
+									"    pm.globals.set(\"eventID\", pm.response.json().data[0].id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.digitalriver.com/events?orderId={{orderId}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"digitalriver",
+								"com"
+							],
+							"path": [
+								"events"
+							],
+							"query": [
+								{
+									"key": "orderId",
+									"value": "{{orderId}}"
+								}
+							]
+						},
+						"description": "Gets all of the events for a given orderID - the eventIDs can be used to pull back what would be the content of the associated outbound webhook."
+					},
+					"response": []
+				},
+				{
+					"name": "Get All fulfillment.created Events for Order",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "4b187001-ffaa-45f7-a9c8-6e868e848f27",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "4b73ed9b-4140-400f-9cc4-ee7506e21fca",
+								"exec": [
+									"    pm.globals.set(\"eventID\", pm.response.json().data[0].id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.digitalriver.com/events?orderId={{orderId}}&type=fulfillment.created",
+							"protocol": "https",
+							"host": [
+								"api",
+								"digitalriver",
+								"com"
+							],
+							"path": [
+								"events"
+							],
+							"query": [
+								{
+									"key": "orderId",
+									"value": "{{orderId}}"
+								},
+								{
+									"key": "type",
+									"value": "fulfillment.created"
+								}
+							]
+						},
+						"description": "Gets all of the events for a given orderID - the eventIDs can be used to pull back what would be the content of the associated outbound webhook."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Fulfillment Created Webhook",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "4b187001-ffaa-45f7-a9c8-6e868e848f27",
+								"exec": [
+									"uuid = require('uuid');",
+									"pm.globals.set('uuid',  uuid.v4());"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "4b73ed9b-4140-400f-9cc4-ee7506e21fca",
+								"exec": [
+									"pm.test(\"Set Customer Id to Global Variable\", function () {",
+									"    pm.globals.set(\"testt\", pm.response.json().data[0].id);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.digitalriver.com/events/{{eventID}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"digitalriver",
+								"com"
+							],
+							"path": [
+								"events",
+								"{{eventID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "sk_test_68c0e36d7917474ca077f4c98d26050e",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "657d7978-e0e9-4852-92d7-545a1e9a6386",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "db69b3bb-7fc8-4b6a-9d6f-18e1c7672bc1",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "507b7604-866f-4c7b-87b4-cb6b7b2723ff",
+			"key": "dnSku",
+			"value": "987456123",
+			"type": "string"
+		},
+		{
+			"id": "bb00267f-2e7f-4ec8-886e-33e7e7044578",
+			"key": "phySku",
+			"value": "PP987123",
+			"type": "string"
+		},
+		{
+			"id": "234d42c6-2db7-4f5b-97ff-30a723eb1bf3",
+			"key": "earthGroups",
+			"value": "PostmanCollection",
+			"type": "string"
+		},
+		{
+			"id": "bbd47e75-e4d0-4970-98f5-85a92a98aaa4",
+			"key": "createSourceRequestObjRawBody",
+			"value": "{\n\t\"type\": \"creditCard\",\n\t\"currency\": \"USD\",\n\t\"amount\": 7,\n\t\"reusable\": false,\n\t\"owner\": {\n\t\t\"firstName\": \"Digital\",\n\t\t\"lastName\": \"Development\",\n\t\t\"email\": \"testdummy@digitalriver.com\",\n\t\t\"address\": {\n\t\t\t\"line1\": \"10380 Bren Road West\",\n\t\t\t\"city\": \"Minnetonka\",\n\t\t\t\"state\": \"MN\",\n\t\t\t\"country\": \"US\",\n\t\t\t\"postalCode\": \"55343\"\n\t\t}\n\t},\n\t\"creditCard\": {\n\t\t\"number\": \"4718491477220129\",\n\t\t\"expirationMonth\": 7,\n\t\t\"expirationYear\": 2027,\n\t\t\"cvv\": \"415\"\n\t}\n}",
+			"type": "string"
+		},
+		{
+			"id": "f9a83c90-b8a7-4587-b773-079dff63f1c3",
+			"key": "Mastercard",
+			"value": "{\n\t\"type\": \"creditCard\",\n\t\"currency\": \"USD\",\n\t\"amount\": 7,\n\t\"reusable\": false,\n\t\"owner\": {\n\t\t\"firstName\": \"Digital\",\n\t\t\"lastName\": \"Development\",\n\t\t\"email\": \"testdummy@digitalriver.com\",\n\t\t\"address\": {\n\t\t\t\"line1\": \"10380 Bren Road West\",\n\t\t\t\"city\": \"Minnetonka\",\n\t\t\t\"state\": \"MN\",\n\t\t\t\"country\": \"US\",\n\t\t\t\"postalCode\": \"55343\"\n\t\t}\n\t},\n\t\"creditCard\": {\n\t\t\"number\": \"5567356088510425\",\n\t\t\"expirationMonth\": 3,\n\t\t\"expirationYear\": 2021,\n\t\t\"cvv\": \"061\"\n\t}\n}",
+			"type": "string"
+		},
+		{
+			"id": "d476fd38-666c-45b4-b095-15467b8eb813",
+			"key": "visagiftcard",
+			"value": "{\n\t\"type\": \"creditCard\",\n\t\"currency\": \"USD\",\n\t\"amount\": 7,\n\t\"reusable\": false,\n\t\"owner\": {\n\t\t\"firstName\": \"Digital\",\n\t\t\"lastName\": \"Development\",\n\t\t\"email\": \"testdummy@digitalriver.com\",\n\t\t\"address\": {\n\t\t\t\"line1\": \"10380 Bren Road West\",\n\t\t\t\"city\": \"Minnetonka\",\n\t\t\t\"state\": \"MN\",\n\t\t\t\"country\": \"US\",\n\t\t\t\"postalCode\": \"55343\"\n\t\t}\n\t},\n\t\"creditCard\": {\n\t\t\"number\": \"4718491477220129\",\n\t\t\"expirationMonth\": 7,\n\t\t\"expirationYear\": 2027,\n\t\t\"cvv\": \"415\"\n\t}\n}",
+			"type": "string"
+		},
+		{
+			"id": "823459aa-b124-401c-97f5-b969a57686ab",
+			"key": "secretKey",
+			"value": "sk_test_68c0e36d7917474ca077f4c98d26050e",
+			"type": "string"
+		},
+		{
+			"id": "7cd2bafd-e8f9-464a-840c-aa97c416128e",
+			"key": "publicKey",
+			"value": "pk_test_3899d5c4a8424b3494cf8847eb4d208b",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
