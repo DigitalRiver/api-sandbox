@@ -7,6 +7,6 @@ To install the API Demo, you can click the Run in Postman button below:
 
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/7fd695b6e6176368c243)
 
-Alternatively, you can install this collection from your Postman client directly by opening the "New" menu, selecting Template, and searching "Digital River API Postman Collection"
+Alternatively, you can install this collection from your Postman client directly downloading the .zip file, selecting "Import," and dropping in the .json file. 
 ## Contact Us
 If you have questions/concerns or if you want to move forward with Digital River, please visit our website at https://www.digitalriver.com/ and select “Contact Us.”
