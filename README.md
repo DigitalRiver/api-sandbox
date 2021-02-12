@@ -1,7 +1,7 @@
 # Digital River API Postman Collection
 Welcome to the demo of the Digital River API!  You can use this Postman collection to test our API offering, string together checkout flows, and make calls to a test environment with a test API key provided to you by Digital River. 
 ## Documentation
-You can find documentation on the Digital River API on our Developer Portal here: https://developers.digitalriver.com/digital-river-api/
+You can find documentation on the Digital River API on our Developer Portal here: https://docs.digitalriver.com/digital-river-api/
 # Installation and Use
 To install the API Demo, you can click the Run in Postman button below:
 
